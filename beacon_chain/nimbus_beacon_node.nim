@@ -317,7 +317,7 @@ proc initFullNode(
       dag, attestationPool, quarantine, node.eth1Monitor,
       ActionTracker.init(rng, config.subscribeAllSubnets),
       node.dynamicFeeRecipientsStore, config.validatorsDir,
-      config.defaultFeeRecipient)
+      config.defaultFeeRecipient, config.suggestedGasLimit)
     blockProcessor = BlockProcessor.new(
       config.dumpEnabled, config.dumpDirInvalid, config.dumpDirIncoming,
       rng, taskpool, consensusManager, node.validatorMonitor, getBeaconTime)
@@ -641,6 +641,7 @@ proc init*(T: type BeaconNode,
         config.validatorsDir,
         config.secretsDir,
         config.defaultFeeRecipient,
+        config.suggestedGasLimit,
         getValidatorAndIdx,
         getBeaconTime)
     else: nil
