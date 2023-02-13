@@ -743,8 +743,8 @@ proc getSuggestedFeeRecipient*(
   except CatchableError as exc:
     # Because the nonexistent validator case was already checked, any failure
     # at this point is serious enough to alert the user.
-    warn "getSuggestedFeeRecipient: failed loading fee recipient file; falling back to default fee recipient",
-      feeRecipientPath,
+    warn "Failed to load fee recipient file; falling back to default fee recipient",
+      feeRecipientPath, defaultFeeRecipient,
       err = exc.msg
     err malformedConfigFile
 
@@ -770,8 +770,8 @@ proc getSuggestedGasLimit*(
       err= e.formatMsg(gasLimitPath)
     err malformedConfigFile
   except CatchableError as exc:
-    warn "getSuggestedGasLimit: failed loading gas limit file; falling back to default gas limit",
-      gasLimitPath,
+    warn "Failed to load gas limit file; falling back to default gas limit",
+      gasLimitPath, defaultGasLimit,
       err = exc.msg
     err malformedConfigFile
 
