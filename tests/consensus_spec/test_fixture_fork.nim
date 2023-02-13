@@ -46,7 +46,7 @@ suite "Ethereum Foundation - Altair - Fork " & preset():
     SszTestsDir/const_preset/"altair"/"fork"/"fork"/"pyspec_tests"
   for kind, path in walkDir(OpForkDir, relative = true, checkDir = true):
     runTest(phase0.BeaconState, altair.BeaconState, "Altair", OpForkDir,
-    upgrade_to_altair, path)
+            upgrade_to_altair, path)
 
 from ../../beacon_chain/spec/datatypes/bellatrix import BeaconState
 
@@ -55,7 +55,7 @@ suite "Ethereum Foundation - Bellatrix - Fork " & preset():
     SszTestsDir/const_preset/"bellatrix"/"fork"/"fork"/"pyspec_tests"
   for kind, path in walkDir(OpForkDir, relative = true, checkDir = true):
     runTest(altair.BeaconState, bellatrix.BeaconState, "Bellatrix", OpForkDir,
-    upgrade_to_bellatrix, path)
+            upgrade_to_bellatrix, path)
 
 from ../../beacon_chain/spec/datatypes/capella import BeaconState
 
@@ -64,7 +64,7 @@ suite "Ethereum Foundation - Capella - Fork " & preset():
     SszTestsDir/const_preset/"capella"/"fork"/"fork"/"pyspec_tests"
   for kind, path in walkDir(OpForkDir, relative = true, checkDir = true):
     runTest(bellatrix.BeaconState, capella.BeaconState, "Capella", OpForkDir,
-    upgrade_to_capella, path)
+            upgrade_to_capella, path)
 
 from ../../beacon_chain/spec/datatypes/eip4844 import BeaconState
 
@@ -73,4 +73,4 @@ suite "Ethereum Foundation - EIP4844 - Fork " & preset():
     SszTestsDir/const_preset/"eip4844"/"fork"/"fork"/"pyspec_tests"
   for kind, path in walkDir(OpForkDir, relative = true, checkDir = true):
     runTest(capella.BeaconState, eip4844.BeaconState, "EIP4844", OpForkDir,
-    upgrade_to_eip4844, path)
+            upgrade_to_eip4844, path)

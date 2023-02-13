@@ -132,7 +132,7 @@ suite "Spec helpers":
     cfg.ALTAIR_FORK_EPOCH = GENESIS_EPOCH
     cfg.BELLATRIX_FORK_EPOCH = GENESIS_EPOCH
     cfg.CAPELLA_FORK_EPOCH = GENESIS_EPOCH
-    cfg.EIP4844_FORK_EPOCH = GENESIS_EPOCH
+    cfg.DENEB_FORK_EPOCH = GENESIS_EPOCH
 
     let
       state = newClone(initGenesisState(cfg = cfg).eip4844Data)

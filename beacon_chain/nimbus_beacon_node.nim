@@ -352,11 +352,11 @@ proc initFullNode(
       validatorChangePool, node.attachedValidators, syncCommitteeMsgPool,
       lightClientPool, quarantine, rng, getBeaconTime, taskpool)
     syncManager = newSyncManager[Peer, PeerId](
-      node.network.peerPool, dag.cfg.EIP4844_FORK_EPOCH, SyncQueueKind.Forward, getLocalHeadSlot,
+      node.network.peerPool, dag.cfg.DENEB_FORK_EPOCH, SyncQueueKind.Forward, getLocalHeadSlot,
       getLocalWallSlot, getFirstSlotAtFinalizedEpoch, getBackfillSlot,
       getFrontfillSlot, dag.tail.slot, blockVerifier, blockBlobsVerifier)
     backfiller = newSyncManager[Peer, PeerId](
-      node.network.peerPool, dag.cfg.EIP4844_FORK_EPOCH, SyncQueueKind.Backward, getLocalHeadSlot,
+      node.network.peerPool, dag.cfg.DENEB_FORK_EPOCH, SyncQueueKind.Backward, getLocalHeadSlot,
       getLocalWallSlot, getFirstSlotAtFinalizedEpoch, getBackfillSlot,
       getFrontfillSlot, dag.backfill.slot, blockVerifier, blockBlobsVerifier,
       maxHeadAge = 0)
@@ -394,7 +394,7 @@ proc initFullNode(
   node.blockProcessor = blockProcessor
   node.consensusManager = consensusManager
   node.requestManager = RequestManager.init(node.network,
-                                            dag.cfg.EIP4844_FORK_EPOCH,
+                                            dag.cfg.DENEB_FORK_EPOCH,
                                             getBeaconTime,
                                             blockVerifier, blockBlobsVerifier)
   node.syncManager = syncManager
@@ -789,7 +789,7 @@ proc updateBlocksGossipStatus*(
 
     targetGossipState = getTargetGossipState(
       slot.epoch, cfg.ALTAIR_FORK_EPOCH, cfg.BELLATRIX_FORK_EPOCH,
-      cfg.CAPELLA_FORK_EPOCH, cfg.EIP4844_FORK_EPOCH, isBehind)
+      cfg.CAPELLA_FORK_EPOCH, cfg.DENEB_FORK_EPOCH, isBehind)
 
   template currentGossipState(): auto = node.blocksGossipState
   if currentGossipState == targetGossipState:
@@ -1021,7 +1021,7 @@ proc updateGossipStatus(node: BeaconNode, slot: Slot) {.async.} =
         node.dag.cfg.ALTAIR_FORK_EPOCH,
         node.dag.cfg.BELLATRIX_FORK_EPOCH,
         node.dag.cfg.CAPELLA_FORK_EPOCH,
-        node.dag.cfg.EIP4844_FORK_EPOCH,
+        node.dag.cfg.DENEB_FORK_EPOCH,
         isBehind)
 
   doAssert targetGossipState.card <= 2
@@ -1446,7 +1446,7 @@ proc installMessageValidators(node: BeaconNode) =
   installPhase0Validators(forkDigests.altair)
   installPhase0Validators(forkDigests.bellatrix)
   installPhase0Validators(forkDigests.capella)
-  if node.dag.cfg.EIP4844_FORK_EPOCH != FAR_FUTURE_EPOCH:
+  if node.dag.cfg.DENEB_FORK_EPOCH != FAR_FUTURE_EPOCH:
     installPhase0Validators(forkDigests.eip4844)
 
   node.network.addValidator(
@@ -1479,7 +1479,7 @@ proc installMessageValidators(node: BeaconNode) =
         toValidationResult(node.processor[].processSignedBeaconBlock(
           MsgSource.gossip, signedBlock)))
 
-  if node.dag.cfg.EIP4844_FORK_EPOCH != FAR_FUTURE_EPOCH:
+  if node.dag.cfg.DENEB_FORK_EPOCH != FAR_FUTURE_EPOCH:
     node.network.addValidator(
       getBeaconBlockAndBlobsSidecarTopic(forkDigests.eip4844),
       proc (
@@ -1539,7 +1539,7 @@ proc installMessageValidators(node: BeaconNode) =
   installSyncCommitteeeValidators(forkDigests.altair)
   installSyncCommitteeeValidators(forkDigests.bellatrix)
   installSyncCommitteeeValidators(forkDigests.capella)
-  if node.dag.cfg.EIP4844_FORK_EPOCH != FAR_FUTURE_EPOCH:
+  if node.dag.cfg.DENEB_FORK_EPOCH != FAR_FUTURE_EPOCH:
     installSyncCommitteeeValidators(forkDigests.eip4844)
 
   template installBlsToExecutionChangeValidators(digest: auto) =
@@ -1550,7 +1550,7 @@ proc installMessageValidators(node: BeaconNode) =
           node.processor[].processBlsToExecutionChange(MsgSource.gossip, msg)))
 
   installBlsToExecutionChangeValidators(forkDigests.capella)
-  if node.dag.cfg.EIP4844_FORK_EPOCH != FAR_FUTURE_EPOCH:
+  if node.dag.cfg.DENEB_FORK_EPOCH != FAR_FUTURE_EPOCH:
     installBlsToExecutionChangeValidators(forkDigests.eip4844)
 
   node.installLightClientMessageValidators()
